@@ -1,0 +1,23 @@
+<c:FragmentDefinition xmlns="sap.m" xmlns:c="sap.ui.core" height="300px" width="300px">
+	<Dialog id="GADetailsDialog" title="Grant Amount Details">
+        <content>
+            <Table items="{sfGrant>/GADetails}" backgroundDesign="Transparent" class="sapUiSmallMargin customTableBackground" width="300px">
+                <columns>
+                    <Column mergeDuplicates="true">
+                        <header><Text text="Assigned Year" /></header>
+                    </Column>
+                    <Column hAlign="End" width="50%">
+                        <header><Text text="Amount" /></header>
+                    </Column>
+                </columns>                                      
+                <ColumnListItem vAlign="Middle">
+                    <Text text="{sfGrant>assignedYear}" />
+                    <ObjectNumber number="{sfGrant>amount}" unit="INR" />
+                </ColumnListItem>  
+            </Table>         
+        </content>
+        <endButton>
+            <Button icon="sap-icon://decline"  text="Close" press=".onCloseGADetails" />
+        </endButton>
+	</Dialog>
+</c:FragmentDefinition>

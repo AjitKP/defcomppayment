@@ -1,0 +1,101 @@
+/* Enter your custom styles here */
+.custompage .sapFDynamicPageHeader{
+    background: linear-gradient(to right, #BE66A3, #06B7ED)!important;
+}
+
+.custompage .sapFDynamicPageHeader,
+.masshirepage2 .sapFDynamicPageTitle,
+.detailpage .sapFDynamicPageTitle,
+.masshirepage2 .sapFDynamicPageTitle:hover,
+.detailpage .sapFDynamicPageTitle:hover,
+.custompage .sapFDynamicPageTitleClickEnabled.sapFDynamicPageTitleForceHovered .sapFDynamicPageTitle {
+    /*background: #1919d1 !important;*/
+    background: linear-gradient(to right, #BE66A3, #06B7ED)!important;
+}
+.whiteTxt,
+.whiteTxt .sapMBtnText,
+.whiteTxt .sapMBtnIcon{
+    color: #fff !important;
+}
+
+.sapMListHdrText {
+    font-size: 1rem !important;
+    height: 2rem !important;
+    line-height: 2rem !important;
+    background-color: #f5f6f7 !important;
+}
+
+.sapUiSizeCompact .sapMListTblRow {
+    height: 1.5rem;
+}
+
+.customHBox {
+    height: 2rem !important;
+    align-items: center;
+}
+
+.sapUiRespGrid.sapUiRespGridVSpace1>div {
+    margin-bottom: 0.25rem !important;
+}
+
+.customListItem {
+    height: 2.125rem !important;
+    margin: 0rem 1rem !important;
+    padding: 0rem 2rem !important;    
+}
+.customToolbar{
+    height: 2rem !important;
+    background-color: #f5f6f7 !important
+}
+.sapUiSizeCompact .sapMColumnHeader {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+.customTableBackground{
+    border: solid 0.0625rem #a8b3bd;
+    border-radius: 8px;
+}
+.customGridList{
+    border: solid 0.0625rem #a8b3bd;
+    border-radius: 8px;
+    padding: 0px 5px;
+}
+
+.sapMSLIWithDescription .sapMSLIDescription {
+    padding-top: 0.75rem;
+    display: none;
+}
+
+.fileUploadBarCls {
+    background-color: transparent !important;
+    box-shadow: inset 0 0rem #d9d9d9 !important;
+    height: 2rem !important;    
+}
+
+.VerticalMargin{
+    margin: 10px 0px !important;
+}
+
+.detailBarCls {
+	height:2rem!important;
+}
+.fileUploadBarCls .sapMBarRight {
+	height:2rem;
+}
+
+.custompage .sapFDynamicPageTitle {
+    display: none;
+}
+
+.sapUiSizeCompact .sapMListTblCell .sapMLnk, .sapUiSizeCompact .sapMListTblCell .sapMText, .sapUiSizeCompact .sapMListTblCell .sapMLabel, .sapUiSizeCompact .sapMListTblCell .sapMObjectNumber, .sapUiSizeCompact .sapMListTblCell .sapMObjectIdentifier, .sapUiSizeCompact .sapMListTblCell .sapMObjStatus {
+    line-height: 1.25rem;
+}
+
+.sapMPanelContent {
+    padding: 0.75rem 0.5rem 0.75rem 0.5rem;
+}
+
+.customLabel{
+    width: 140px;
+    padding-top: 4px;
+}

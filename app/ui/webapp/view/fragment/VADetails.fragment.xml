@@ -1,0 +1,43 @@
+<c:FragmentDefinition xmlns="sap.m" xmlns:c="sap.ui.core" height="300px" width="300px" 	xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
+	<Dialog id="VADetailsDialog" title="Vested Amount Details">
+        <content>       
+            <VBox class="sapUiSmallMargin">
+                <f:Form id="FormDisplay480_12120" editable="false">
+                    <!-- <f:title><core:Title text="Address" /></f:title> -->
+                    <f:layout>
+                        <f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false" />
+                    </f:layout>
+                    <f:formContainers>
+                        <f:FormContainer>
+                            <f:formElements>
+                                <f:FormElement label="Σ Granted Amount">
+                                    <f:fields>
+                                        <ObjectNumber number="{sfVest>/VADetails/LYTotalGrantedAmount}" unit="INR" />
+                                    </f:fields>
+                                    <!-- <f:label>
+                                        <Label id="idLabelRoleCode" required="true" text="Σ Granted Amount"></Label>
+                                    </f:label>                                     -->
+                                </f:FormElement>
+                                <f:FormElement label="Rating">
+                                    <f:fields>
+                                        <RatingIndicator editable="false" maxValue="5" value="{sfVest>/VADetails/Rating}" iconSize="16px" />
+                                    </f:fields>
+                                </f:FormElement>                                
+                                <f:FormElement label="Payment Percent">
+                                    <f:fields>
+                                        <ProgressIndicator percentValue="{sfVest>/VADetails/VestingPercent}" displayValue="{sfVest>/VADetails/VestingPercent}%" showValue="true" state="Information" />
+                                    </f:fields>
+                                </f:FormElement>
+                            </f:formElements>
+                        </f:FormContainer>
+                    </f:formContainers>
+                </f:Form>
+            </VBox>        
+        </content>
+        <endButton>
+            <Button icon="sap-icon://decline"  text="Close" press=".onCloseVADetails" />
+        </endButton>
+	</Dialog>
+</c:FragmentDefinition>

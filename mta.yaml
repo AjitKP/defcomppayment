@@ -1,0 +1,88 @@
+_schema-version: "3.1"
+ID: defcomppayment
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: defcomppayment-approuter
+  type: approuter.nodejs
+  path: defcomppayment-approuter
+  requires:
+  - name: defcomppayment_html_repo_runtime
+  - name: uaa_defcomppayment
+  - name: defcomppayment-destination-service
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+- name: defcomppayment_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: defcomppayment_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - defcomppaymentui.zip
+      name: defcomppaymentui
+      target-path: resources/
+- name: defcomppaymentui
+  type: html5
+  path: app/ui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: defcomppayment_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: uaa_defcomppayment
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: defcomppayment-xsuaa-service
+    service-plan: application
+- name: defcomppayment_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+- name: defcomppayment-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: defcomppayment-destination-service
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx -p @sap/cds-dk cds build --production

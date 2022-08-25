@@ -1,0 +1,9 @@
+<c:FragmentDefinition xmlns="sap.m" xmlns:c="sap.ui.core">
+	<SelectDialog id="selectDialog" title="Employees" items="{sfEmp>/Employees}"
+		search=".onValueHelpSearch" confirm=".onValueHelpClose"	cancel=".onValueHelpClose">
+		<StandardListItem class="customListItem"
+			iconDensityAware="false" iconInset="true"
+			title="{sfEmp>personIdExternal} : {sfEmp>firstName} {sfEmp>lastName}"
+			description="{sfEmp>personIdExternal}" />
+	</SelectDialog>
+</c:FragmentDefinition>

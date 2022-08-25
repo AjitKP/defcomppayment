@@ -1,0 +1,242 @@
+<mvc:View controllerName="defcomp.payment.ui.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"  xmlns:semantic="sap.f.semantic" xmlns:c="sap.ui.core"	xmlns:tnt="sap.tnt" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout"
+    xmlns="sap.m" 	xmlns:f1="sap.f" 	xmlns:card="sap.f.cards">
+	<semantic:SemanticPage id="mySemanticPage" headerPinnable="false" toggleHeaderOnTitleClick="false" preserveHeaderStateOnScroll="true"
+		showFooter="true" class="sapUiResponsivePadding custompage">
+		<semantic:headerContent >
+			<Bar class="fileUploadBarCls" id="idHeaderBar"> 
+				<contentLeft>
+					<Image src="./css/sap_icon.png" width="5%"></Image>
+                    <Title text="{i18n>title}" class="whiteTxt" titleStyle="H3"/>
+				</contentLeft>
+				<contentMiddle>
+                </contentMiddle>
+				<contentRight>
+				</contentRight>
+			</Bar>
+		</semantic:headerContent>
+		<semantic:content>
+        <VBox>
+            <Panel width="auto" class="sapUiSmallMargin">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Choose Employee" titleStyle="H5"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content>        
+                    <f:Form editable="true" width="100%">
+                        <f:formContainers>
+                            <!--sap.ui.layout.form.FormContainer-->
+                            <f:FormContainer>
+                                <f:formElements>
+                                    <!--sap.ui.layout.form.FormElement-->                       
+                                    <f:FormElement >
+                                        <f:fields>
+                                            <Input id="idEmployeeInput" showSuggestion="true"  showValueHelp="true" valueHelpRequest=".onValueHelpRequest" suggestionItems="{sfEmp>/Employees}">
+                                                <suggestionItems>
+                                                    <c:Item text="{sfEmp>personIdExternal} : {sfEmp>firstName} {sfEmp>lastName}" />
+                                                </suggestionItems>
+                                                <layoutData>
+                                                    <l:GridData span="XL2 L2 M4 S6" />
+                                                </layoutData>                                                 
+                                            </Input>                                        
+                                            <Button icon="sap-icon://sys-find"  text="{i18n>actionDisplay}" type="Accept" press=".onDisplay">
+                                                <layoutData>
+                                                    <l:GridData span="XL1 L2 M4 S6" />
+                                                </layoutData>  
+                                            </Button>                                            
+                                        </f:fields>
+                                        <f:label>
+                                            <Label id="idLabelRoleCode" required="true" text="Employee">
+                                                <layoutData>
+                                                    <l:GridData span="XL1 L2 M4 S6" />
+                                                </layoutData>                                            
+                                            </Label>
+                                        </f:label>
+                                    </f:FormElement>
+                                </f:formElements>
+
+                            </f:FormContainer>
+                        </f:formContainers>
+                        <f:layout>
+                            <f:ResponsiveGridLayout labelSpanXL="12" labelSpanL="12" labelSpanM="4" labelSpanS="4" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="6" columnsM="6" singleContainerFullSize="true" />
+                        </f:layout>
+                        <f:title>
+                            <!--sap.ui.core.Title-->
+                        </f:title>
+                        <f:toolbar>
+                            <!--sap.ui.core.Toolbar-->
+                        </f:toolbar>
+                    </f:Form>                                       
+                </content>
+            </Panel>		
+            <Panel id="idLTIDetails" width="auto" class="sapUiSmallMarginBeginEnd" backgroundDesign="Solid">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Long Term Incentive Details" titleStyle="H5"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content> 
+                    <l:VerticalLayout width="100%">
+                        <l:Grid containerQuery="true">
+                            <!-- <Panel id="idLTIAssignment" width="auto" backgroundDesign="Transparent">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="Allocated Incentives"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <content>  -->
+                                    <Table items="{sfLTI>/Allocated}" backgroundDesign="Transparent" class="customTableBackground">
+                                        <columns>
+                                            <Column mergeDuplicates="true" width="23%">
+                                                <header><Text text="Assigned Year" /></header>
+                                            </Column>
+                                            <Column mergeDuplicates="true" hAlign="End" width="28%">
+                                                <header><Text text="Assigned Amount" /></header>
+                                            </Column>
+                                            <Column width="19%">
+                                                <header><Text text="Name" /></header>
+                                            </Column>
+                                            <Column hAlign="End" width="10%">
+                                                <header><Text text="Year" /></header>
+                                            </Column>
+                                            <Column hAlign="End" width="20%">
+                                                <header><Text text="Amount" /></header>
+                                            </Column>
+                                        </columns>
+                                        <headerToolbar>
+                                            <OverflowToolbar class="customToolbar">
+                                                <Title text="Allocated Incentives" titleStyle="H5"/>
+                                            </OverflowToolbar>
+                                            </headerToolbar>                                        
+                                        <ColumnListItem vAlign="Middle">
+                                            <Text text="{sfLTI>assignedYear}" />
+                                            <Text text="{sfLTI>assignedAmount}" />
+                                            <Text text="{sfLTI>name}" />
+                                            <Text text="{sfLTI>year}" />
+                                            <ObjectNumber number="{sfLTI>amount}" unit="INR" />
+                                        </ColumnListItem>
+                                        <layoutData>
+                                            <l:GridData span="XL4 L4 M12 S12" />
+                                        </layoutData>   
+                                    </Table> 
+                            
+                                <!-- </content>
+                            </Panel>   -->
+                            <!-- <Panel id="idLTICalculation" width="auto" class="sapUiContentPadding" backgroundDesign="Transparent">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="Calculated Incentives"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <content>  -->
+                                <!-- <Table items="{sfLTIC>/Calculated}" backgroundDesign="Transparent" class="customTableBackground">
+                                        <columns>
+                                            <Column mergeDuplicates="true">
+                                                <header><Text text="Year" /></header>
+                                            </Column>
+                                            <Column hAlign="End">
+                                                <header><Text text="Granted Amount" /></header>
+                                            </Column>
+                                            <Column>
+                                                <header><Text text="Granted Date" /></header>
+                                            </Column>
+                                            <Column hAlign="End">
+                                                <header><Text text="Vested Amount" /></header>
+                                            </Column>
+                                            <Column>
+                                                <header><Text text="Vesting Date" /></header>
+                                            </Column>
+                                            <Column hAlign="End">
+                                                <header><Text text="Payment Amount" /></header>
+                                            </Column>
+                                            <Column>
+                                                <header><Text text="Payment Date" /></header>
+                                            </Column>                                            
+                                        </columns>
+                                        <headerToolbar>
+                                            <OverflowToolbar class="customToolbar">
+                                                <Title text="Calculated Incentives (Earnings)" titleStyle="H5"/>
+                                            </OverflowToolbar>
+                                            </headerToolbar>                                        
+                                        <ColumnListItem vAlign="Middle">
+                                            <Text text="{sfLTIC>year}" />
+                                            <ObjectNumber number="{sfLTIC>GrantedAmount}" unit="INR" />
+                                            <Text text="{sfLTIC>GrantedDate}" />
+                                            <ObjectNumber number="{sfLTIC>VestedAmount}" unit="INR" />
+                                            <Text text="{sfLTIC>VestedDate}" />
+                                            <ObjectNumber number="{sfLTIC>PaymentAmount}" unit="INR" />
+                                            <Text text="{sfLTIC>PaymentDtae}" />
+                                        </ColumnListItem>
+                                    </Table>         -->
+		
+                                    <HBox>
+        
+                                        <f1:GridList			id="gridList" width="100%"
+                                            headerText="Calculated Incentives (Earnings)"
+                                            items="{sfLTIC>/Calculated}" class="customGridList">
+                                            <f1:GridListItem> 
+                                                <l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
+                                                    <!-- <Title level="H6" text="Year - {sfLTIC>year}" class="sapUiSmallMarginTopBottom" /> -->
+                                                    <GenericTag text="Year"  design="StatusIconHidden" status="Error" class="sapUiSmallMarginTopBottom">
+                                                        <ObjectNumber state="Success" emphasized="true" number="{sfLTIC>year}" unit="" />
+                                                    </GenericTag>
+                                                    <!-- <Title level="H6" text=""  class="sapUiSmallMarginTop customHeight" height="2.5rem"/> -->
+                                                    <HBox class="customHBox">
+                                                        <Label text="Granted Amount" class="sapUiSmallMarginBegin customLabel"	design="Bold"  labelFor="idValue1"/>
+                                                        <ObjectNumber id="idValue1" number="{sfLTIC>GrantedAmount}" unit="INR" class="sapUiTinyMarginBegin" />
+                                                        <Button icon="sap-icon://information" type="Transparent" class="sapUiSmallMarginBegin" press="onDisplayGADetails"/>
+                                                    </HBox>
+                                                    <HBox class="customHBox">
+                                                        <Label text="Granted Date :" design="Bold" class="sapUiSmallMarginBegin customLabel"  labelFor="idValue2"/>
+                                                        <!-- <Title level="H6" text="Granted Date" /> -->
+                                                        <Text id="idValue2" text="{sfLTIC>GrantedDate}" class="sapUiTinyMarginBegin"/>
+                                                    </HBox>
+                                                    <HBox class="customHBox">
+                                                        <Label text="Vested Amount :" design="Bold"  class="sapUiSmallMarginBegin customLabel" labelFor="idValue3"/>
+                                                        <ObjectNumber id="idValue3" number="{sfLTIC>VestedAmount}" unit="INR" class="sapUiTinyMarginBegin" />
+                                                        <Button icon="sap-icon://information" type="Transparent" class="sapUiSmallMarginBegin" press="onDisplayVADetails"/>
+                                                    </HBox>
+                                                    <HBox class="customHBox">
+                                                        <Label text="Vested Date :" design="Bold"  class="sapUiSmallMarginBegin customLabel" labelFor="idValue4"/>
+                                                        <!-- <Title level="H6" text="Vested Date" /> -->
+                                                        <Text id="idValue4" text="{sfLTIC>VestedDate}"  class="sapUiTinyMarginBegin"/>  
+                                                    </HBox>
+                                                    <HBox class="customHBox">     
+                                                        <Label text="Payment Amount :" design="Bold" height="2rem" class="sapUiSmallMarginBegin customLabel" labelFor="idValue5"/>         
+                                                        <!-- <Title level="H6" text="Payment Amount" /> -->
+                                                        <ObjectNumber id="idValue5" number="{sfLTIC>PaymentAmount}" unit="INR" height="2rem" class="sapUiTinyMarginBegin"/>  
+                                                    </HBox>
+                                                    <HBox class="customHBox">
+                                                        <Label text="Payment Date :" design="Bold" height="2rem" class="sapUiSmallMarginBegin customLabel" labelFor="idValue6"/>  
+                                                        <!-- <Title level="H6" text="Payment Date" /> -->
+                                                        <Text id="idValue6" text="{sfLTIC>PaymentDtae}" height="2rem" class="sapUiTinyMarginBegin"/>                   
+                                                    </HBox>           
+                                                </l:Grid>            		
+                                            </f1:GridListItem>                                               
+                                        </f1:GridList>                                                             
+                                <!-- </content>
+                            </Panel>                                                 -->
+                                        <layoutData>
+                                            <l:GridData span="XL8 L8 M12 S12" />
+                                        </layoutData> 
+                                </HBox>
+                        </l:Grid>
+                    </l:VerticalLayout>                      
+                </content>
+            </Panel>                            				
+        </VBox>
+		</semantic:content>
+		<!-- <semantic:messagesIndicator>
+			<semantic:MessagesIndicator id="messageBtn" press="onMessagesButtonPress"/>
+		</semantic:messagesIndicator> -->
+		<semantic:footerMainAction >
+            <!-- <semantic:FooterMainAction id="editSubmit" text="{i18n>sendForApproval}" press="onSubmitForApproval" enabled="false"/> -->
+			<!-- <semantic:FooterMainAction id="editAction" text="{i18n>submitAll}" press="onSubmit" enabled="false" visible="false"/> -->
+		</semantic:footerMainAction>
+		
+	</semantic:SemanticPage>     
+    <c:Fragment fragmentName="defcomp.payment.ui.view.fragment.ValueHelpDialog" type="XML"></c:Fragment>    
+    <c:Fragment fragmentName="defcomp.payment.ui.view.fragment.GADetails" type="XML"></c:Fragment>
+    <c:Fragment fragmentName="defcomp.payment.ui.view.fragment.VADetails" type="XML"></c:Fragment>    
+</mvc:View>
