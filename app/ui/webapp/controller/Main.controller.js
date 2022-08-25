@@ -4,26 +4,32 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
+    "sap/ui/model/FilterOperator",
+    "sap/ui/core/BusyIndicator"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Fragment, Filter, FilterOperator) {
+    function (Controller, JSONModel, Fragment, Filter, FilterOperator, BusyIndicator) {
         "use strict";
 
         return Controller.extend("defcomp.payment.ui.controller.Main", {
             onAfterRendering: function(){
+                this._getEmpList();
+                this._getURLEmp();                
                 if(this.getView().byId("idEmployeeInput").getValue().length > 5){
                     this.onDisplay()
+                }else{
+                    BusyIndicator.hide();           
                 }
             }, 
             onInit: function () {
+                BusyIndicator.show(0);
                 this.oDialog = this.getView().byId("selectDialog");
                 this.GADetailsDialog = this.getView().byId("GADetailsDialog");
                 this.VADetailsDialog = this.getView().byId("VADetailsDialog");
-                this._getEmpList();
-                this._getURLEmp();
+                // this._getEmpList();
+                // this._getURLEmp();
                 this.aLTIData = [];
                 this.aLTIAllocatedData = [
                     {
@@ -56,6 +62,7 @@ sap.ui.define([
                 this.payGrade = "";
             },
             _getEmpInfo: function(sUserId){
+                BusyIndicator.show(0);
                 var that = this;
                 $.ajax({
                     url: `/defcomppaymentui/odata/v2/EmpJob?$format=json&$filter=userId eq '${sUserId}'`,
@@ -87,7 +94,8 @@ sap.ui.define([
                         console.log(that);
                         that.aRatingPercent = odata.d.results;
                     }
-                })                
+                })  
+                BusyIndicator.hide();              
             },
             _getRatingByYear : function(sYear){
                 var iRating = 0;
@@ -117,6 +125,7 @@ sap.ui.define([
                 }
              },                
             _getEmpList: function () {
+                BusyIndicator.show(0);
                 var that = this;
                 $.ajax({
                     url: "/defcomppaymentui/odata/v2//PerPersonal?$format=json&$top=100&$select=personIdExternal,firstName,lastName&$filter=startswith(personIdExternal, '8029') eq true",
@@ -133,12 +142,17 @@ sap.ui.define([
                         var oModel = new JSONModel({ "Employees": odata.d.results });
                         that.getView().setModel(oModel, "sfEmp");
                     }
-                })
+                });
+                BusyIndicator.hide();
             },
             _getURLEmp: function(){
+                BusyIndicator.show(0);
                 var that = this;
                 var sId = jQuery.sap.getUriParameters().get("id")
-                if(sId == null){return};
+                if(sId == null){return}else{
+                    this.getView().byId("idEmployeeInput").setEditable(false);
+                    this.getView().byId("idBtnDisplay").setVisible(false);
+                };
                 $.ajax({
                     url: `/defcomppaymentui/odata/v2/PerPersonal?$filter=personIdExternal eq '${sId}'&$format=json`,
                     method: "GET",
@@ -154,7 +168,8 @@ sap.ui.define([
                         var oEmpInfo = odata.d.results[0];
                         that.getView().byId("idEmployeeInput").setValue(`${oEmpInfo.personIdExternal} : ${oEmpInfo.firstName} ${oEmpInfo.lastName}`)
                     }
-                })
+                });
+                BusyIndicator.hide();
             },
             _getFilterCriteria: function (sInputValue) {
                 if(sInputValue != ""){
@@ -177,13 +192,15 @@ sap.ui.define([
                 var sEmpId = this.getView().byId("idEmployeeInput").getValue().split(":")[0].trim();
                 if(!sEmpId) return;
                 this._getEmpInfo(sEmpId);
+                BusyIndicator.show(0);
                 $.ajax({
                     url: `/defcomppaymentui/odata/v2/User('${sEmpId}')/externalCodeOfcust_Demo_compNav?$format=json&$expand=cust_Comp_Worksheet`,
                     method: "GET",
                     contentType: "application/json",
                     headers: { "Accept": "application/json" },
-                    async: false,
+                    async: true,
                     error: function (error, jQXHR) {
+                        BusyIndicator.hide();                 
                         console.log(error);
                     },
                     success: function (odata, jQXHR, status) { 
@@ -248,20 +265,22 @@ sap.ui.define([
                             aCalculatedData.push(JSON.parse(JSON.stringify(oCalcData[aAssignedYears[i]])));
                         }
                         var oClacModel = new JSONModel({ "Calculated": aCalculatedData});
-                        that.getView().setModel(oClacModel, "sfLTIC");                                                                      
+                        that.getView().setModel(oClacModel, "sfLTIC");   
+                        BusyIndicator.hide();                                                                               
                     }
                 })
-                var aAllocatedData=[], oAllocatedEntry={};
-                for(let i=0; i<this.aLTIAllocatedData.length; i++){
-                    for(let j=0; j<this.aLTIAllocatedData[i].allocations.length; j++){
-                        oAllocatedEntry = {...this.aLTIAllocatedData[i]};
-                        delete oAllocatedEntry.allocations;
-                        oAllocatedEntry = {...oAllocatedEntry, ...this.aLTIAllocatedData[i].allocations[j]};
-                        aAllocatedData.push(JSON.parse(JSON.stringify(oAllocatedEntry)));
-                    }
-                }
+                // var aAllocatedData=[], oAllocatedEntry={};
+                // for(let i=0; i<this.aLTIAllocatedData.length; i++){
+                //     for(let j=0; j<this.aLTIAllocatedData[i].allocations.length; j++){
+                //         oAllocatedEntry = {...this.aLTIAllocatedData[i]};
+                //         delete oAllocatedEntry.allocations;
+                //         oAllocatedEntry = {...oAllocatedEntry, ...this.aLTIAllocatedData[i].allocations[j]};
+                //         aAllocatedData.push(JSON.parse(JSON.stringify(oAllocatedEntry)));
+                //     }
+                // }
                 // var oModel = new JSONModel({ "Allocated": aAllocatedData});
-                // that.getView().setModel(oModel, "sfLTI");                
+                // that.getView().setModel(oModel, "sfLTI");    
+                // BusyIndicator.hide();           
             },
             onDisplayGADetails: function(oEvent){
                 debugger;

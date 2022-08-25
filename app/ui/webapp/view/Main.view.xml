@@ -1,6 +1,6 @@
-<mvc:View controllerName="defcomp.payment.ui.controller.Main"
+<mvc:View controllerName="defcomp.payment.ui.controller.Main" 
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"  xmlns:semantic="sap.f.semantic" xmlns:c="sap.ui.core"	xmlns:tnt="sap.tnt" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout"
-    xmlns="sap.m" 	xmlns:f1="sap.f" 	xmlns:card="sap.f.cards">
+    xmlns="sap.m" 	xmlns:f1="sap.f" 	xmlns:card="sap.f.cards" busyIndicatorDelay="0" busyIndicatorSize="Small">
 	<semantic:SemanticPage id="mySemanticPage" headerPinnable="false" toggleHeaderOnTitleClick="false" preserveHeaderStateOnScroll="true"
 		showFooter="true" class="sapUiResponsivePadding custompage">
 		<semantic:headerContent >
@@ -40,7 +40,7 @@
                                                     <l:GridData span="XL2 L2 M4 S6" />
                                                 </layoutData>                                                 
                                             </Input>                                        
-                                            <Button icon="sap-icon://sys-find"  text="{i18n>actionDisplay}" type="Accept" press=".onDisplay">
+                                            <Button id="idBtnDisplay" icon="sap-icon://sys-find"  text="{i18n>actionDisplay}" type="Accept" press=".onDisplay">
                                                 <layoutData>
                                                     <l:GridData span="XL1 L2 M4 S6" />
                                                 </layoutData>  
